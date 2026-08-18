@@ -1,0 +1,98 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template tiny_saylorcode/insert_form
+
+    Form for inserting a Saylor Code Studio exercise reference.
+
+    Every control has an associated label, and the validation message is a live
+    region tied to the reference field by aria-describedby, so a screen reader
+    user hears why a save was refused rather than only seeing a red border.
+
+    Context variables required for this template:
+    * heights array Selectable heights, each with a value.
+
+    Example context (json):
+    {
+        "heights": [{"value": 300}, {"value": 400}, {"value": 500}]
+    }
+}}
+<div class="tiny_saylorcode-insert">
+    <div class="form-group">
+        <label for="tiny_saylorcode_exercise">{{#str}}exercise, tiny_saylorcode{{/str}}</label>
+        <input type="text"
+               class="form-control"
+               id="tiny_saylorcode_exercise"
+               name="exercise"
+               placeholder="CS101-U05-E03"
+               autocomplete="off"
+               spellcheck="false"
+               aria-describedby="tiny_saylorcode_exercise_help tiny_saylorcode_exercise_feedback">
+        <small id="tiny_saylorcode_exercise_help" class="form-text text-muted">
+            {{#str}}exercise_help, tiny_saylorcode{{/str}}
+        </small>
+        <div id="tiny_saylorcode_exercise_feedback"
+             class="invalid-feedback d-block"
+             data-region="exercise-feedback"
+             role="alert"
+             aria-live="polite"></div>
+    </div>
+
+    <div class="form-group">
+        <label for="tiny_saylorcode_mode">{{#str}}mode, tiny_saylorcode{{/str}}</label>
+        <select class="custom-select" id="tiny_saylorcode_mode" name="mode">
+            <option value="compact" selected>{{#str}}modecompact, tiny_saylorcode{{/str}}</option>
+            <option value="full">{{#str}}modefull, tiny_saylorcode{{/str}}</option>
+            <option value="link">{{#str}}modelink, tiny_saylorcode{{/str}}</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="tiny_saylorcode_version">{{#str}}version, tiny_saylorcode{{/str}}</label>
+        <input type="text"
+               class="form-control"
+               id="tiny_saylorcode_version"
+               name="version"
+               value="latest"
+               autocomplete="off"
+               aria-describedby="tiny_saylorcode_version_help">
+        <small id="tiny_saylorcode_version_help" class="form-text text-muted">
+            {{#str}}version_help, tiny_saylorcode{{/str}}
+        </small>
+    </div>
+
+    <div class="form-group">
+        <label for="tiny_saylorcode_height">{{#str}}height, tiny_saylorcode{{/str}}</label>
+        <select class="custom-select" id="tiny_saylorcode_height" name="height">
+            <option value="" selected>{{#str}}heightauto, tiny_saylorcode{{/str}}</option>
+            {{#heights}}
+                <option value="{{value}}">{{value}}px</option>
+            {{/heights}}
+        </select>
+    </div>
+
+    <div class="form-check">
+        <input type="checkbox"
+               class="form-check-input"
+               id="tiny_saylorcode_showinstructions"
+               name="showinstructions"
+               checked>
+        <label class="form-check-label" for="tiny_saylorcode_showinstructions">
+            {{#str}}showinstructions, tiny_saylorcode{{/str}}
+        </label>
+    </div>
+</div>
