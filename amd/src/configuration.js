@@ -22,17 +22,53 @@
  */
 
 import {buttonName} from 'tiny_saylorcode/common';
-import {addMenubarItemAfter, addToolbarButtonAfter} from 'editor_tiny/utils';
+import {addMenubarItem, addToolbarButton} from 'editor_tiny/utils';
+
+/** @type {string} Moodle's image button and menu item, which ours goes after. */
+const imageName = 'tiny_media_image';
 
 /**
- * Place the button and menu item near the other content insertion controls.
+ * Whether a toolbar section holds a given button.
+ *
+ * @param {Array|undefined} toolbar The toolbar configuration.
+ * @param {string} section The section name.
+ * @param {string} button The button name.
+ * @returns {boolean}
+ */
+const toolbarHas = (toolbar, section, button) => Array.isArray(toolbar)
+    && toolbar.some((item) => item.name === section && Array.isArray(item.items) && item.items.indexOf(button) !== -1);
+
+/**
+ * Whether a menu holds a given item.
+ *
+ * @param {Object|undefined} menu The menu configuration.
+ * @param {string} section The menu name.
+ * @param {string} menuitem The item name.
+ * @returns {boolean}
+ */
+const menuHas = (menu, section, menuitem) => !!menu && !!menu[section]
+    && String(menu[section].items).split(' ').indexOf(menuitem) !== -1;
+
+/**
+ * Place the button and menu item next to the image control.
+ *
+ * Core's helpers take the control to follow as an optional last argument,
+ * and add nothing at all when that control is missing. The image control
+ * belongs to tiny_media, which a site can disable, so the button follows it
+ * when it is there and goes at the end of its section when it is not;
+ * otherwise the Code Studio button would quietly disappear.
  *
  * @param {Object} instanceConfig The existing editor configuration.
  * @returns {Object} The adjusted configuration.
  */
 export const configure = (instanceConfig) => {
+    const toolbar = instanceConfig.toolbar;
+    const menu = instanceConfig.menu;
+
     return {
-        toolbar: addToolbarButtonAfter(instanceConfig.toolbar, 'content', 'moodleimage', buttonName),
-        menu: addMenubarItemAfter(instanceConfig.menu, 'insert', 'moodleimage', buttonName),
+        toolbar: addToolbarButton(toolbar, 'content', buttonName,
+            toolbarHas(toolbar, 'content', imageName) ? imageName : null),
+        menu: addMenubarItem(menu, 'insert', buttonName,
+            menuHas(menu, 'insert', imageName) ? imageName : null),
     };
 };
