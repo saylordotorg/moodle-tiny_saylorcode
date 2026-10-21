@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'tiny_saylorcode';
-$plugin->version   = 2026081800;
+$plugin->version   = 2026102101;
 $plugin->requires  = 2024100700; // Moodle 4.5.
 $plugin->supported = [405, 405];
 $plugin->maturity  = MATURITY_ALPHA;
